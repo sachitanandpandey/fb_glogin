@@ -12,6 +12,7 @@ final GoogleSignIn googleSignIn = GoogleSignIn();
 final databaseReference = Firestore.instance;
 
 Future<String> signInWithGoogle() async {
+
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
   final GoogleSignInAuthentication googleSignInAuthentication =
       await googleSignInAccount.authentication;
@@ -45,6 +46,17 @@ Future<String> signInWithGoogle() async {
 
   return 'signInWithGoogle succeeded: $user';
   
+
+
+  
+}
+
+Future getCurrentUser() async {
+try {
+FirebaseUser _user = await FirebaseAuth.instance.currentUser();
+print("User: ${_user.displayName ?? "None"}");
+return _user;
+}catch(e){print ("error with getCurrentUser");}
 }
 
 signOutGoogle() async {

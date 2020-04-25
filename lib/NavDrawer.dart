@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:fb_glogin/sign_in.dart';
 import 'package:fb_glogin/login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class NavDrawer extends StatelessWidget {
+class NavDrawer extends StatefulWidget {
+  @override
+  _NavDrawerState createState() => _NavDrawerState();
+}
+
+//class NavDrawer extends StatelessWidget {
+class _NavDrawerState extends State<NavDrawer> {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser user;
+
+  @override
+  void initState() {
+    super.initState();
+    initUser();
+  }
+
+  initUser() async {
+    user = await _auth.currentUser();
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -14,6 +35,13 @@ class NavDrawer extends StatelessWidget {
               'Side menu',
               style: TextStyle(color: Colors.white, fontSize: 25),
             ),
+          
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: NetworkImage("${user?.photoUrl}"),
+                ),
+              ),
             //decoration: BoxDecoration(
             //    color: Colors.green,
             //    image: DecorationImage(
@@ -44,7 +72,8 @@ class NavDrawer extends StatelessWidget {
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),
               onTap: () => {
-                    signInWithGoogle().whenComplete(() {
+                    signOutGoogle().whenComplete(() {
+                      FirebaseAuth.instance.signOut();
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) {
@@ -58,4 +87,5 @@ class NavDrawer extends StatelessWidget {
       ),
     );
   }
+
 }

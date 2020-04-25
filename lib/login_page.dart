@@ -1,6 +1,9 @@
+//import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:fb_glogin/sign_in.dart';
 import 'package:fb_glogin/firstscreen.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,7 +15,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/mainkaunhu.jpg"),
+            fit: BoxFit.cover,
+          ),
+          //color: Colors.white,
+        ),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -32,14 +41,22 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
-        signInWithGoogle().whenComplete(() {
+        // signInWithGoogle().whenComplete(() {
+        //   Navigator.of(context).push(
+        //     MaterialPageRoute(
+        //       builder: (context) {
+
+        //         return FirstScreen();
+                  
+        //       },
+        //     ),
+        //   );
+        // });
+        signInWithGoogle().then((onValue){
           Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return FirstScreen();
-              },
-            ),
-          );
+              MaterialPageRoute(
+                builder: (context){return FirstScreen();},
+          ));
         });
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
@@ -51,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            //Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
+            Image(image: AssetImage("images/google_logo.png"), height: 35.0),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
